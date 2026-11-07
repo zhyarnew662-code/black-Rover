@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true" android:layoutDirection="rtl"
+    android:background="@color/bg">
+
+<LinearLayout
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="14dp"
+    android:focusable="true" android:focusableInTouchMode="true">
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:text="📇 خوێنەری کارتی RFID"
+        android:textColor="@color/text" android:textSize="22sp" android:textStyle="bold"
+        android:layout_marginTop="6dp"/>
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:textDirection="ltr"
+        android:text="AA0004EF55555555AA0198F7  →  104695"
+        android:textColor="@color/muted" android:textSize="13sp"
+        android:layout_marginBottom="14dp"/>
+
+    <!-- ئەنجام -->
+    <LinearLayout android:id="@+id/resultCard" style="@style/Card" android:gravity="center_horizontal">
+        <TextView style="@style/Label" android:text="ژمارەی کارت"/>
+        <TextView android:id="@+id/tvCardNum"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:text="—" android:textDirection="ltr"
+            android:textColor="@color/green" android:textSize="52sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvNumHint" style="@style/Label"
+            android:textDirection="ltr" android:text="hex: —"/>
+        <TextView android:id="@+id/tvRawHex"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:textDirection="ltr" android:typeface="monospace"
+            android:text="—" android:textColor="@color/muted" android:textSize="15sp"
+            android:layout_marginTop="6dp"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <Button android:id="@+id/btnCopy" style="@style/Btn" android:text="📋 کۆپیکردنی ژمارە"/>
+            <Button android:id="@+id/btnTest" style="@style/BtnGray" android:text="🧪 تاقیکردنەوە"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- داتای خوێنەر -->
+    <LinearLayout style="@style/Card">
+        <TextView style="@style/Label" android:text="داتای خوێنەر (Hex) — خوێنەرەکە لێرە دەنووسرێت"/>
+        <TextView android:id="@+id/tvScan"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/input_bg" android:padding="12dp"
+            android:gravity="center" android:textDirection="ltr" android:typeface="monospace"
+            android:text="—" android:textColor="@color/text" android:textSize="18sp"
+            android:layout_marginTop="6dp"/>
+        <TextView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:textColor="@color/green" android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:text="🛡️ بە شوێنی کلیلەکان دەخوێنرێتەوە، نەک بە زمانی کیبۆرد"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:gravity="center_vertical">
+            <EditText android:id="@+id/etManual" style="@style/Input"
+                android:layout_width="0dp" android:layout_weight="1"
+                android:hint="یان Hex بنووسە / پەیست بکە" android:textDirection="ltr"
+                android:imeOptions="actionDone"/>
+            <Button android:id="@+id/btnManual" style="@style/Btn" android:text="✔"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- USB Serial -->
+    <LinearLayout style="@style/Card">
+        <TextView style="@style/Label" android:text="پەیوەندی USB / Serial (بە کابڵی OTG)"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical" android:layout_marginTop="6dp">
+            <TextView style="@style/Label" android:text="Baud"/>
+            <Spinner android:id="@+id/spBaud" android:layout_width="120dp"
+                android:layout_height="wrap_content" android:layout_marginStart="8dp"/>
+            <Button android:id="@+id/btnConnect" style="@style/Btn" android:text="🔌 پەیوەندی"/>
+            <Button android:id="@+id/btnDisconnect" style="@style/BtnGray" android:text="⏏ داخستن"
+                android:visibility="gone"/>
+        </LinearLayout>
+        <TextView android:id="@+id/tvPortStatus" style="@style/Label" android:text="پەیوەندی نەکراوە"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <!-- ڕێکخستنەکان -->
+    <LinearLayout style="@style/Card">
+        <CheckBox android:id="@+id/cbBeep" style="@style/Check" android:checked="true" android:text="🔔 دەنگ"/>
+        <CheckBox android:id="@+id/cbAutoCopy" style="@style/Check" android:checked="true" android:text="📋 کۆپی خۆکار"/>
+        <CheckBox android:id="@+id/cbBlockDup" style="@style/Check" android:checked="true" android:text="🚫 ڕێگرتن لە دووبارە"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+            <CheckBox android:id="@+id/cbAutoCommit" style="@style/Check" android:checked="true" android:text="⏱️ خۆ-تۆمارکردن"/>
+            <EditText android:id="@+id/etAutoMs" style="@style/Input"
+                android:layout_width="80dp" android:inputType="number" android:text="500"
+                android:textDirection="ltr" android:imeOptions="actionDone"/>
+            <TextView style="@style/Label" android:text=" ms"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <Button android:id="@+id/btnExport" style="@style/BtnGray" android:text="⬇️ CSV"/>
+            <Button android:id="@+id/btnClear" style="@style/BtnRed" android:text="🗑️ سڕینەوەی مێژوو"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- پارسکردن -->
+    <LinearLayout style="@style/Card">
+        <TextView style="@style/Label" android:text="شێوازی پارسکردن"/>
+        <Spinner android:id="@+id/spMode" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
+        <LinearLayout android:id="@+id/llManual" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:visibility="gone" android:layout_marginTop="8dp">
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginEnd="6dp">
+                <TextView style="@style/Label" android:text="شوێن (byte)"/>
+                <EditText android:id="@+id/etOff" style="@style/Input" android:inputType="number"
+                    android:text="9" android:textDirection="ltr" android:imeOptions="actionDone"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView style="@style/Label" android:text="درێژی (byte)"/>
+                <EditText android:id="@+id/etLen" style="@style/Input" android:inputType="number"
+                    android:text="3" android:textDirection="ltr" android:imeOptions="actionDone"/>
+            </LinearLayout>
+        </LinearLayout>
+        <CheckBox android:id="@+id/cbLittle" style="@style/Check" android:text="پێچەوانە (LSB)"/>
+        <CheckBox android:id="@+id/cbDecimal" style="@style/Check" android:text="داتاکە دیکەیمالە"/>
+    </LinearLayout>
+
+    <!-- مێژوو -->
+    <LinearLayout style="@style/Card">
+        <TextView style="@style/Label" android:text="مێژوو (دوایین ٥٠ خوێندنەوە)"/>
+        <LinearLayout android:id="@+id/llHistory" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:layout_marginTop="6dp"/>
+    </LinearLayout>
+
+    <!-- ڕوونکردنەوە -->
+    <LinearLayout style="@style/Card">
+        <TextView style="@style/Label" android:text="چۆن ئەم ژمارەیە دەردەچێت؟"
+            android:textColor="@color/accent"/>
+        <TextView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" android:lineSpacingExtra="4dp"
+            android:textColor="@color/muted" android:textSize="13sp"
+            android:text="خوێنەرەکە ئەم بایتانە دەنێرێت:\nAA 00 04 EF 55 55 55 55 AA | 01 98 F7\n\nسێ بایتی کۆتایی ژمارەی کارتەکەیە:\n0x0198F7 = 104695"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>
